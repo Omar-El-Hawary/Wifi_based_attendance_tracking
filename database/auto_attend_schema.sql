@@ -1,0 +1,56 @@
+
+CREATE TABLE `Groups`(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(255) NOT NULL,
+    educational_year ENUM('1','2','3','4','5') NOT NULL
+);
+CREATE TABLE `Access_points`(
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
+    nas_name VARCHAR(255) NOT NULL,
+    location_name VARCHAR(255) NOT NULL
+);
+CREATE TABLE `Classes`(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    period ENUM('first','second','third','fourth'),
+    type ENUM('section','lecture') NOT NULL,   
+    day ENUM('sunday','monday','tuesday','wednesday','thursday','saturday'),
+    end_time DATETIME NOT NULL,
+    access_point_id VARCHAR(255) NOT NULL,
+    duration INT NOT NULL,
+    group_id INT NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES `Groups`(id),
+    FOREIGN KEY (access_point_id) REFERENCES access_points(id)
+);
+CREATE TABLE `Students`(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    faculty INT NOT NULL, 
+    name VARCHAR(255) NOT NULL,
+    group_id INT NOT NULL ,
+    class_id INT,
+    FOREIGN KEY (group_id) REFERENCES `Groups`(id),
+    FOREIGN KEY (class_id) REFERENCES Classes(id)
+);
+
+CREATE TABLE `Wifi_sessions`(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    entry_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    student_id INT NOT NULL,
+    duration INT NOT NULL,
+    access_point_id VARCHAR(255) NOT NULL,
+    FOREIGN KEY (access_point_id) REFERENCES access_points(id),
+    FOREIGN KEY (student_id) REFERENCES students(id)
+
+);
+CREATE TABLE `Attendance`(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    student_id INT NOT NULL,
+    group_id INT NOT NULL,
+    attended BOOLEAN NOT NULL,
+    percentage INT NOT NULL,
+    entry_date DATE DEFAULT(NOW()),
+    FOREIGN KEY (class_id) REFERENCES Classes(id),
+    FOREIGN KEY (student_id) REFERENCES Students(id),
+    FOREIGN KEY (group_id) REFERENCES `Groups`(id)
+);
