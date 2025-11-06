@@ -75,4 +75,4 @@ Below is the entity-relationship diagram illustrating these connections.
 
 ## 📜 License
 
-This project is released under the MIT License.
+This project is released under the Apache-2.0 License.
