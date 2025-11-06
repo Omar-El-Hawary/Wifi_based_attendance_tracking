@@ -1,0 +1,21 @@
+You recieve the sessionend file from the radius server
+you check if the access point id exists on the server 
+if true :
+    You parse the id of the student and the access point you recieved it from and the session duration
+    you save this data into the db along with the current datetime 
+if false:
+    ignore the file 
+after each period 
+    you get all the lectures with the same current end day  
+    you get their groups id then the corresponding student's id's and get the wifi-session id rows  which contain the lecture location and the student id's
+    then you look at the db for a row that contains their id along with the id of the corresponding's room access point 
+    if found
+        check how many rows are present 
+        if more than 1 
+         add them all and check for the total check for how long the session lasted
+        else 
+            check how long the session lasted and compare it to the lecture total time and get a percentage
+    if not found 
+        mark him abscent 
+
+        
